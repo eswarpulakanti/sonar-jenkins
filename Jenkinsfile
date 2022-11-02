@@ -1,1 +1,16 @@
 
+pipeline {
+	agent {label 'linux'}
+	options {
+  	  buildDiscarder(logRotator(numToKeepStr: '5'))
+        }
+	stages {
+	  stage('scan') {
+	    steps {
+              withSonarQubeEnv(installationName: 'sonarqube') {
+ 		sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.8.6'
+	           }
+	         }
+	       }
+	     }
+     }
